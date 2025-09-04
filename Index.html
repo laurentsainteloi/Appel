@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appel Lycée - Application Mobile</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#2563eb">
+    <meta name="description" content="Application d'appel pour les classes du lycée">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Appel Lycée">
+    
+    <!-- PWA Icons -->
+    <link rel="icon" type="image/png" sizes="192x192" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgdmlld0JveD0iMCAwIDE5MiAxOTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxOTIiIGhlaWdodD0iMTkyIiByeD0iMjQiIGZpbGw9IiMyNTYzZWIiLz4KPHBhdGggZD0iTTQ4IDcyaDk2djE2SDQ4VjcyWm0wIDMyaDk2djE2SDQ4di0xNlptMCAzMmg2NHYxNkg0OHYtMTZaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4=">
+    <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgdmlld0JveD0iMCAwIDE5MiAxOTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxOTIiIGhlaWdodD0iMTkyIiByeD0iMjQiIGZpbGw9IiMyNTYzZWIiLz4KPHBhdGggZD0iTTQ4IDcyaDk2djE2SDQ4VjcyWm0wIDMyaDk2djE2SDQ4di0xNlptMCAzMmg2NHYxNkg0OHYtMTZaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4=">
+    
+    <!-- Manifest -->
+    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIkFwcGVsIEx5Y8OpZSAtIEFwcGxpY2F0aW9uIE1vYmlsZSIsCiAgInNob3J0X25hbWUiOiAiQXBwZWwgTHljw6llIiwKICAiZGVzY3JpcHRpb24iOiAiQXBwbGljYXRpb24gZCdhcHBlbCBwb3VyIGxlcyBjbGFzc2VzIGR1IGx5Y8OpZSIsCiAgInN0YXJ0X3VybCI6ICIuLyIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgInRoZW1lX2NvbG9yIjogIiMyNTYzZWIiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiNmZmZmZmYiLAogICJvcmllbnRhdGlvbiI6ICJwb3J0cmFpdCIsCiAgImljb25zIjogWwogICAgewogICAgICAic3JjIjogImRhdGE6aW1hZ2Uvc3ZnK3htbDtiYXNlNjQsUEhOMlp5QjNhV1IwYUQwaU1Ua3lJaUJvWldsbmFIUTlJakU1TWlJZ2RtbGxkMEp2ZUQwaU1DQXdJREU1TWlBeE9USWlJR1pwYkd3OUltNXZibVVpSUhodGJHNXpQU0pvZEhSd09pOHZkM2QzTG5jekxtOXlaeTh5TURBd0wzTjJaeUkrQ2p4eVpXTjBJSGRwWkhSb1BTSXRNVGT5MmlJZ2FHVnBaMmgwUFNJeE9USWlJSEo0UFNJeU5DSWdabWxzYkQwaUl6STFOak5sWWlJdlBnbzhjR0YwYUNCa1BTSU5OVGdnTnpKb09UWjJNVFpJTkRoV056SlplREF6TW1nNU5uWXhOa2cwT0hZdE1UWmFiVEF6TW1nMk5IWXhOa2cwT0hZdE1UWmFJaUJtYVd4c1BTSjNhR2wwWlNJdlBnbzhjM1puUGc9PSIsCiAgICAgICJzaXplcyI6ICIxOTJ4MTkyIiwKICAgICAgInR5cGUiOiAiaW1hZ2Uvc3ZnK3htbCIsCiAgICAgICJwdXJwb3NlIjogImFueSBtYXNrYWJsZSIKICAgIH0KICBdCn0=">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <style>
+        /* Custom styles for mobile optimization */
+        .mobile-optimized {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        
+        .student-row {
+            transition: all 0.2s ease;
+        }
+        
+        .student-row:active {
+            transform: scale(0.98);
+        }
+        
+        .btn-attendance {
+            min-width: 48px;
+            min-height: 48px;
+        }
+        
+        /* PWA specific styles */
+        @media (display-mode: standalone) {
+            body {
+                padding-top: env(safe-area-inset-top);
+                padding-bottom: env(safe-area-inset-bottom);
+            }
+        }
+        
+        /* Prevent zoom on iOS */
+        input[type="date"] {
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen mobile-optimized">
+    <div id="app" class="max-w-lg mx-auto bg-white min-h-screen">
+        <!-- Header -->
+        <div class="bg-blue-600 text-white p-4 sticky top-0 z-10 shadow-lg">
+            <h1 class="text-xl font-bold">📋 Appel Lycée</h1>
+            <p class="text-blue-100 text-sm">Gestion des présences</p>
+            <div class="mt-2 flex justify-between items-center">
+                <span class="text-sm" id="current-date"></span>
+                <input type="date" id="date-picker" class="px-2 py-1 rounded text-black text-sm">
+            </div>
+        </div>
+        
+        <!-- Install Button -->
+        <div id="install-banner" class="bg-green-500 text-white p-3 text-center hidden">
+            <p class="text-sm mb-2">Installer l'application sur votre téléphone</p>
+            <button id="install-btn" class="bg-white text-green-500 px-4 py-2 rounded font-semibold text-sm">
+                📱 Installer l'App
+            </button>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="p-4">
+            <!-- Class Selection -->
+            <div id="class-selection" class="space-y-4">
+                <h2 class="text-lg font-semibold">Sélectionner une classe</h2>
+                <div id="class-grid" class="grid grid-cols-2 gap-3">
+                    <!-- Classes will be populated by JavaScript -->
+                </div>
+            </div>
+            
+            <!-- Attendance View -->
+            <div id="attendance-view" class="hidden">
+                <div class="flex justify-between items-center mb-4">
+                    <button id="back-btn" class="px-4 py-2 bg-gray-500 text-white rounded-lg">
+                        ← Retour
+                    </button>
+                    <div class="flex gap-2">
+                        <button id="reset-btn" class="px-3 py-2 bg-yellow-500 text-white rounded-lg text-sm">
+                            🔄 Reset
+                        </button>
+                        <button id="export-btn" class="px-3 py-2 bg-green-500 text-white rounded-lg text-sm">
+                            💾 Export
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="class-header" class="mb-4">
+                    <h2 id="class-title" class="text-lg font-semibold"></h2>
+                </div>
+                
+                <!-- Summary -->
+                <div id="summary" class="bg-gray-100 p-3 rounded-lg mb-4 text-sm">
+                    <div class="flex justify-between">
+                        <span class="text-green-600">✓ Présents: <span id="present-count">0</span></span>
+                        <span class="text-red-600">✗ Absents: <span id="absent-count">0</span></span>
+                        <span class="text-gray-600">? Non marqués: <span id="unmarked-count">0</span></span>
+                    </div>
+                </div>
+                
+                <!-- Students List -->
+                <div id="students-list" class="space-y-2">
+                    <!-- Students will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Class data
+        const classData = {
+            '4EA': {
+                count: 7,
+                students: ['CARPENTIER Antonin', 'GERASCH Evan', 'LAGNEAU Louis', 'LEGROS Gabriel', 'BECQUET Slohane', 'LEFEVRE C Elora', 'PLEZ Gabrielle']
+            },
+            '2PROG': {
+                count: 12,
+                students: ['CAMUS Pierre', 'LEGRAND Valentin', 'BOUTEILLER Nathan', 'LEPINE Henri', 'LAMBERTHYN Hugo', 'FOVEAU PAUL', 'GONDOIS Gabriel', 'LEDOUX Noha', 'DEJARDIN Killian', 'SBRAIRE Léandro', 'HOMMER Louis', 'BRIOIS Louis']
+            },
+            '1PRO': {
+                count: 23,
+                students: ['LEMPEREUR Antoine', 'MARECHAL Alexandre', 'CREPIN Marceau', 'DECALF Henri', 'POIRET Lucas', 'ROEDOLF Erwan', 'BILBAUT Louis', 'BOUDAILLIER Clément', 'BLEYEART Maxence', 'BARTIER Valentin', 'DUFAY Louis', 'HERMANT-SIX Matéo', 'GAMBIER Tom', 'OBIN Hélène', 'GAFFET Justine', 'DE GRAVE Virgine', 'SYNAVE Abèle', 'LEVEQUE Louise', 'THERY Léonie']
+            },
+            'TPRO': {
+                count: 24,
+                students: ['LANGIGNON Timéo', 'DENOYELLE Romain', 'FOUBET Lucas', 'DE BISSCHOP Cyprien', 'CORDELLE Giovani', 'CLAREBOUT Dorian', 'BOULLENGER Rémi', 'MALGRAS Hippolyte', 'CUVILLIEZ Constant', 'VERBEKE Paul', 'GUILBERT Louis', 'CUVILLIER Mathieu']
+            },
+            '1STAV': {
+                count: 19,
+                students: ['MAGNIEZ Alexis', 'TAVERNE Paul', 'HENGUELLE Louis', 'TEMPEZ Jules', 'BATICLE-DHEILLY Tom', 'BELLEGUEULE Antoine', 'BOUVET Auguste', 'GAPENNE Jules', 'BELLIARD Clément', 'DELATER Benoit', 'BOUVET Agathe', 'BEUGNET Manon']
+            },
+            'TSTAV': {
+                count: 14,
+                students: ['QUENNESSON Aymeric', 'FROMENT Julien', 'DOAL Nathan', 'MACHIELS Victor', 'NIQUET Antoine', 'MARTEIN Paul', 'POTRIQUET Félicien', 'BOUTILLIER Damon', 'LELIEUR Anthime', 'NADOLNY Colin', 'DUMONT Thomas', 'DELOUBRIERE Raphael']
+            },
+            '1PROA': {
+                count: 12,
+                students: ['COQUET Louise', 'NOREL Margot', 'TAVERNIER Louis', 'BONNIERE Maxime', 'LEFEBVRE Tim', 'MOREL Simon', 'FORE Maxence', 'LELEU Lisa', 'STOLARZ Lou Ann']
+            },
+            '3EA': {
+                count: 15,
+                students: ['OLIVARES Kylian', 'TURPIN Jonathan', 'VALET Alexis', 'DELABRE Florimond', 'DREANO-L Nicolas', 'LELEUX Baptiste', 'BONNEMENT Benjamin', 'POLLART Clément', 'HALIPRE Léo', 'VALCKE Constance', 'DELACOURT Marie', 'FLAMENT JEANNE', 'WADDINGTON Constance', 'DELAFONTAINE Lola', 'SAMAIN Baptiste']
+            },
+            '2PROA': {
+                count: 12,
+                students: ['BARTIER Jules', 'LAGACHE Mathieu', 'ASSELIN Maxence', 'COURTOIS Luka', 'DALLERY Jules', 'LEVERT Quentin', 'HANSCOTTE Ruben', 'JAMARD-T Alexandre', 'JAMARD-T Grégoire', 'SECQ Pierre', 'COQUET Pauline', 'CORNILLE Manon']
+            },
+            '2GM': {
+                count: 12,
+                students: ['DESCAMPS Baptiste', 'DUMONT Gabriel', 'MILLE Lubin', 'PIOLE Jean', 'BELLIARD Julien', 'BOURDREL Gauthier', 'BRUNEEL Pierre-Vincent', 'CHARPENTIER Raphael', 'BOUCHEZ Lys', 'DUQUESNE Louise', 'LEVEL Léa', 'LEFEVRE Tom']
+            },
+            '2GP': {
+                count: 10,
+                students: ['LESAFFRE Lucas', 'DUFRANNE Léopold', 'DECROCK Anthime', 'CARON Jules', 'TEMPEZ Antoine', 'ROUSSEL Vivien', 'HENGUELLE Flavie', 'LAVAQUERIE Léa', 'POLIN Clémentine', 'VIARD Camille']
+            },
+            '1G': {
+                count: 8,
+                students: ['VALCKE Anthime', 'MAILLARD Marie', 'HOLOWATY Léa', 'STOFFAES Manon', 'DELAPORTE Emeline', 'EVRARD Inés', 'DEBISSCHOP Léonie', 'TEMPET Noémie']
+            },
+            'TG': {
+                count: 10,
+                students: ['SOISSONS Louis', 'MILLE Mathys', 'DEFOSSEZ Gaëtan', 'DUCROQUET Ezéchiel', 'DUFOUR Alex', 'DUPUIS Jeanne', 'STACHOWICZ Evanne', 'COULMONT Margot', 'DOUVILLE DE FRANSSU Hugues', 'SARRAZYN Honorine']
+            },
+            'TPROA': {
+                count: 16,
+                students: ['BROHARD Cécile', 'LAGACHE Omérine', 'MAILLY Léa', 'DAUSSE Félix', 'BEAUJEAN Evan', 'BOULNOIS Gabin', 'DRUET Paul', 'DASSENCOURT Hugo', 'LEFEBVRE Mathys', 'GODIN Paul', 'HALINGRE Alexis', 'MESSEAN Anatole', 'MINAIR Nolann', 'QUEULIN Kandyss']
+            },
+            'CAPA1': {
+                count: 2,
+                students: ['MARTIN Lola', 'LOTELLIER Lilou']
+            },
+            'CAPA2': {
+                count: 4,
+                students: ['DEVILLE Oscar', 'FLAMENT Marc-Antoine', 'PAMART Arthur', 'PLAISANT Marius']
+            },
+            'ACSE1': {
+                count: 6,
+                students: ['BELLENGUEZ Margaux', 'BELLIERE Emilie', 'CHOIN Hugo', 'COPIN Alexandre', 'TISSOT-C Gauthier', 'GOSSART Aurélien']
+            },
+            'GDEA2': {
+                count: 13,
+                students: ['BEEUWSAERT Martin', 'CALLEBAUT Hugo', 'CHOQUET Clémence', 'DESCAMPS Alexis', 'DUJARDIN Anatole', 'DUFOUR Enzo', 'CARLIEZ Théo', 'MULLIEZ Victor', 'WAESELYNCK Jérome', 'CAVELIER Grégoire', 'DECONINCK Amaury', 'DEVIENNE Pierre', 'LELEU Victor']
+            },
+            'ACSE2': {
+                count: 10,
+                students: ['THUILLIER Anaïs', 'SELLIER Camille', 'SERGEANT Matéo', 'DELCROIX Gabriel', 'GRIERE Pierre', 'GREBERT Jules', 'CARTON Evan', 'CARON Cyprien', 'BONNEMENT Maxime', 'MARC Valentin']
+            },
+            'GDEA1': {
+                count: 9,
+                students: ['RENARD Louis', 'DUGAVE Esteban', 'WACHEUX Baptiste', 'GAUTHIER Lucas', 'VAN HECKE Marian', 'TOURNEUR Charles', 'DECOCK Baptiste', 'LEMAINE Alexandre', 'LIBESSART Justin']
+            },
+            'GDEA1A': {
+                count: 13,
+                students: ['RIBEAUCOURT Mathieu', 'VIARD Paul', 'DECOSTER Baptiste', 'DUPEND Firmin', 'HERMANT Alexy', 'JALLAY Alexandre', 'KUKLA Enzo', 'LESIEUX Thibault', 'MIRAMONT Valentin', 'NEMPONT Victorien', 'QUENTIN Mathys', 'RENOIR Rémy', 'ROPITAL Loïc']
+            },
+            'ACSE1A': {
+                count: 11,
+                students: ['MAURIN Maëlyne', 'BOXOEN Inés', 'SPILMONT Romain', 'BOURSIEZ Julien', 'DAYEZ S Jules', 'LENOIR Alexis', 'MARTINAGE Bertrand', 'VERHILLE Théo', 'DUBOIS Romain', 'DUCHAUSSOY Hyllan', 'GRAVE Louis']
+            },
+            'GDEA2A': {
+                count: 11,
+                students: ['BOUDOT Romain', 'CARON Hugo', 'CREPIN Maxence', 'DESSAINT Florent', 'DEVINGT Alexandre', 'GOMEL Antoine', 'HELLIER Isaac', 'MORTELETTE Hugo', 'SUEUR Alexis', 'TASSART Eliott', 'TRONGNEUX Mathis']
+            },
+            'ACSE2A': {
+                count: 14,
+                students: ['VALCKE Valentine', 'BOULANGER Aglaë', 'ACHER Emilien', 'DESCAMPS Louis', 'DOOM Ugo', 'DUMEIGE Nathan', 'DUPUIS Arthur', 'GREBERT Antoine', 'LANDRY Benjamin', 'LARBI Mattéo', 'LEDUC Mathys', 'SOUFFLET Eloi', 'VAN LANCKER Jean', 'VATTIER Victor']
+            }
+        };
+
+        let currentClass = null;
+        let attendance = {};
+        let deferredPrompt = null;
+
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeDate();
+            renderClassGrid();
+            setupEventListeners();
+            registerServiceWorker();
+        });
+
+        // PWA Installation
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            document.getElementById('install-banner').classList.remove('hidden');
+        });
+
+        document.getElementById('install-btn').addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    document.getElementById('install-banner').classList.add('hidden');
+                }
+                deferredPrompt = null;
+            }
+        });
+
+        // Service Worker Registration
+        function registerServiceWorker() {
+            if ('serviceWorker' in navigator) {
+                const swCode = `
+                    const CACHE_NAME = 'appel-lycee-v1';
+                    const urlsToCache = ['/'];
+                    
+                    self.addEventListener('install', (event) => {
+                        event.waitUntil(
+                            caches.open(CACHE_NAME)
+                                .then((cache) => cache.addAll(urlsToCache))
+                        );
+                    });
+                    
+                    self.addEventListener('fetch', (event) => {
+                        event.respondWith(
+                            caches.match(event.request)
+                                .then((response) => response || fetch(event.request))
+                        );
+                    });
+                `;
+                
+                const blob = new Blob([swCode], { type: 'application/javascript' });
+                const swUrl = URL.createObjectURL(blob);
+                
+                navigator.serviceWorker.register(swUrl)
+                    .then(() => console.log('Service Worker registered'))
+                    .catch((error) => console.log('Service Worker registration failed'));
+            }
+        }
+
+        function initializeDate() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('date-picker').value = today;
+            document.getElementById('current-date').textContent = new Date().toLocaleDateString('fr-FR');
+        }
+
+        function renderClassGrid() {
+            const grid = document.getElementById('class-grid');
+            grid.innerHTML = '';
+            
+            Object.keys(classData).forEach(className => {
+                const button = document.createElement('button');
+                button.className = 'bg-white border-2 border-gray-200 rounded-lg p-4 text-center shadow hover:border-blue-300 active:bg-blue-50';
+                button.innerHTML = `
+                    <div class="font-semibold text-lg">${className}</div>
+                    <div class="text-sm text-gray-600">${classData[className].count} élèves</div>
+                `;
+                button.onclick = () => selectClass(className);
+                grid.appendChild(button);
+            });
+        }
+
+        function selectClass(className) {
+            currentClass = className;
+            attendance = {};
+            classData[className].students.forEach(student => {
+                attendance[student] = null;
+            });
+            
+            document.getElementById('class-selection').classList.add('hidden');
+            document.getElementById('attendance-view').classList.remove('hidden');
+            document.getElementById('class-title').textContent = `Classe ${className} - ${classData[className].count} élèves`;
+            
+            renderStudentsList();
+            updateSummary();
+        }
+
+        function renderStudentsList() {
+            const list = document.getElementById('students-list');
+            list.innerHTML = '';
+            
+            classData[currentClass].students.forEach((student, index) => {
+                const row = document.createElement('div');
+                row.className = 'student-row flex items-center justify-between p-3 border rounded-lg bg-gray-50';
+                
+                const studentInfo = document.createElement('div');
+                studentInfo.className = 'flex items-center flex-1';
+                studentInfo.innerHTML = `
+                    <span class="w-8 text-gray-500 text-sm">${index + 1}.</span>
+                    <span class="font-medium text-sm">${student}</span>
+                `;
+                
+                const buttons = document.createElement('div');
+                buttons.className = 'flex gap-2';
+                
+                const presentBtn = document.createElement('button');
+                presentBtn.className = `btn-attendance p-2 rounded-lg ${
+                    attendance[student] === true 
+                        ? 'bg-green-500 text-white' 
+                        : 'bg-gray-200 active:bg-green-100'
+                }`;
+                presentBtn.innerHTML = '✓';
+                presentBtn.onclick = () => markAttendance(student, true);
+                
+                const absentBtn = document.createElement('button');
+                absentBtn.className = `btn-attendance p-2 rounded-lg ${
+                    attendance[student] === false 
+                        ? 'bg-red-500 text-white' 
+                        : 'bg-gray-200 active:bg-red-100'
+                }`;
+                absentBtn.innerHTML = '✗';
+                absentBtn.onclick = () => markAttendance(student, false);
+                
+                buttons.appendChild(presentBtn);
+                buttons.appendChild(absentBtn);
+                
+                row.appendChild(studentInfo);
+                row.appendChild(buttons);
+                list.appendChild(row);
+            });
+        }
+
+        function markAttendance(student, status) {
+            attendance[student] = status;
+            updateSummary();
+            renderStudentsList(); // Re-render to update button states
+            
+            // Haptic feedback if available
+            if (navigator.vibrate) {
+                navigator.vibrate(50);
+            }
+        }
+
+        function updateSummary() {
+            const present = Object.values(attendance).filter(status => status === true).length;
+            const absent = Object.values(attendance).filter(status => status === false).length;
+            const unmarked = Object.values(attendance).filter(status => status === null).length;
+            
+            document.getElementById('present-count').textContent = present;
+            document.getElementById('absent-count').textContent = absent;
+            document.getElementById('unmarked-count').textContent = unmarked;
+        }
+
+        function setupEventListeners() {
+            document.getElementById('back-btn').onclick = () => {
+                document.getElementById('attendance-view').classList.add('hidden');
+                document.getElementById('class-selection').classList.remove('hidden');
+                currentClass = null;
+            };
+            
+            document.getElementById('reset-btn').onclick = () => {
+                if (confirm('Effacer tous les résultats de l\'appel ?')) {
+                    Object.keys(attendance).forEach(student => {
+                        attendance[student] = null;
+                    });
+                    renderStudentsList();
+                    updateSummary();
+                }
+            };
+            
+            document.getElementById('export-btn').onclick = exportAttendance;
+            
+            document.getElementById('date-picker').onchange = (e) => {
+                const date = new Date(e.target.value);
+                document.getElementById('current-date').textContent = date.toLocaleDateString('fr-FR');
+            };
+        }
+
+        function exportAttendance() {
+            if (!currentClass) return;
+            
+            const date = document.getElementById('current-date').textContent;
+            const present = Object.values(attendance).filter(status => status === true).length;
+            const absent = Object.values(attendance).filter(status => status === false).length;
+            const unmarked = Object.values(attendance).filter(status => status === null).length;
+            const total = present + absent + unmarked;
+            
+            let report = `APPEL - Classe ${currentClass}\n`;
+            report += `Date: ${date}\n`;
+            report += `Éducateur: ........................\n\n`;
+            report += `RÉSUMÉ:\n`;
+            report += `Total élèves: ${total}\n`;
+            report += `Présents: ${present}\n`;
+            report += `Absents: ${absent}\n`;
+            report += `Non marqués: ${unmarked}\n\n`;
+            report += `DÉTAIL:\n`;
+            
+            classData[currentClass].students.forEach((student, index) => {
+                const status = attendance[student];
+                const statusText = status === true ? '✓ Présent' : status === false ? '✗ Absent' : '? Non marqué';
+                report += `${index + 1}. ${student} - ${statusText}\n`;
+            });
+
+            // Create and download file
+            const blob = new Blob([report], { type: 'text/plain;charset=utf-8' });
+            
+            // For mobile devices, use Web Share API if available
+            if (navigator.share) {
+                const file = new File([blob], `appel_${currentClass}_${date.replace(/\//g, '-')}.txt`, {
+                    type: 'text/plain'
+                });
+                
+                navigator.share({
+                    title: `Appel ${currentClass} - ${date}`,
+                    text: 'Rapport d\'appel de classe',
+                    files: [file]
+                }).catch(err => {
+                    // Fallback to download
+                    downloadFile(blob, `appel_${currentClass}_${date.replace(/\//g, '-')}.txt`);
+                });
+            } else {
+                // Fallback to download
+                downloadFile(blob, `appel_${currentClass}_${date.replace(/\//g, '-')}.txt`);
+            }
+        }
+        
+        function downloadFile(blob, filename) {
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(link.href);
+        }
+    </script>
+</body>
+</html>
